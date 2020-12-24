@@ -8,19 +8,13 @@ from torch.utils.data import Dataset, DataLoader
 from random import randint 
 import tqdm
 
-#0. Impervious surfaces - WHITE
-#1. Building - BLUE
-#2. Low vegetation - TURQUOISE
-#3. Tree - GREEN
-#4. Car - YELLOW
+
 
 """
 Data Mining Class.
 
 Online augmentation with augmentor will be done. We discard any cropping techniques, as long as some class objects appear to be really small in 
 mask images. Or we'd be confusing network.
-
-Color mapping would be the following:
 
 HR image to tiles conversion is done separately beforehand.
 """
