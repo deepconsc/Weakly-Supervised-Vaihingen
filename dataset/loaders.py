@@ -1,6 +1,8 @@
 import cv2
 import numpy as np 
-from tqdm import tqdm 
+from tqdm import tqdm
+import glob 
+
 
 """
 Tile Generator function.
@@ -17,6 +19,8 @@ Color mapping would be the following:
 4. Car - YELLOW
 
 """
+
+CLS_MAPPING = {0:[255, 255, 255], 1:[  0,   0, 255], 2:[  0, 255, 255], 3:[  0, 255,   0], 4:[255, 255,   0]}
 
 def tilegenerator(image_paths, train_val_ratio):
 
@@ -36,14 +40,14 @@ def tilegenerator(image_paths, train_val_ratio):
 
     """
 
-    cls_mapping = {0:[255, 255, 255], 1:[  0,   0, 255], 2:[  0, 255, 255], 3:[  0, 255,   0], 4:[255, 255,   0]}  # 5 Color mapping 
+      # 5 Color mapping 
     image_paths = glob.glob(f'{image_paths}/*')  # Retrieve specific amount of img paths
     mask_paths = [x.replace('top/', 'gts_for_participants/') for x in image_paths] # Convert to mask paths
 
     images = []
     labels = []
 
-    for e, img in enumerate(image_paths):
+    for e, img in tqdm(enumerate(image_paths)):
         img = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
         mask = cv2.cvtColor(cv2.imread(mask_paths[e]), cv2.COLOR_BGR2RGB)
 
@@ -61,7 +65,7 @@ def tilegenerator(image_paths, train_val_ratio):
                 mask = mask[y0:y1, x0:x1, :]
                 total_area = mask.shape[0] * mask.shape[1]
 
-                for key, value in cls_mapping.items():     # Iterating through class map to detect colors
+                for key, value in CLS_MAPPING.items():     # Iterating through class map to detect colors
                     if 255 in cv2.inRange(mask, np.array(value)-1, np.array(value)+1):      # This is a horrible workaround to detect color in tile. Needed to hardcode yet.
                         area = np.count_nonzero(mask == 255)
                         zero_labels[key] = area / total_area    # Let's calculate label area percentage for soft labeling
