@@ -1,8 +1,8 @@
 # Weakly-Supervised-Vaihingen
 
-## TODO
+### TODO
 
-Construct detailed guideline for different approaches.
-Update README respectively.
-Code Trainer
-Code Losses 
+- Construct detailed guideline for different approaches.
+- Update README respectively.
+- Code Trainer
+- Code Losses 
