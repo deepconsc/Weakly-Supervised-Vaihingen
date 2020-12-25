@@ -60,7 +60,6 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
             for x in range(stride_vrt+1):
                 zero_labels = np.zeros(5).astype(np.uint8)  # Zero-array for multi-class labels.
                 x0, x1 = (x*200, (x+1)*200) if x != stride_vrt else (x*200,img.shape[1])    # Move window vertically, unless it's side part - then we'll use height as x1.
-                images.append()
                 mask = mask[y0:y1, x0:x1, :]
                 total_area = mask.shape[0] * mask.shape[1]
 
