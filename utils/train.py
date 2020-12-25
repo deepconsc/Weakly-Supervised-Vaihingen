@@ -16,7 +16,7 @@ def calc_loss(pred, target, features_conv, weights, metrics, bce_weight=0.5):
     229 in Line 23 is around 90% of 255, which is max pixel intensity in map. 40000 just stands for 200x200 image area.
 
     """
-    bce = F.binary_cross_entropy(pred, target.copy())
+    bce = F.binary_cross_entropy(pred, target.clone())
     
     area_ratios = []
     images = generate_cam(features_conv, weights)
