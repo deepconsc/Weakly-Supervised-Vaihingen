@@ -61,9 +61,14 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
             y0, y1 = (y*200, (y+1)*200) if y != stride_hrz else (y*200,img.shape[0])    # Move window horizontally, unless it's side part - then we'll use width as y1.
 
             for x in range(stride_vrt+1):
-                zero_labels = np.zeros(5).astype(np.uint8)  # Zero-array for multi-class labels.
+                zero_labels = np.zeros(5).astype(np.float32)  # Zero-array for multi-class labels.
                 x0, x1 = (x*200, (x+1)*200) if x != stride_vrt else (x*200,img.shape[1])    # Move window vertically, unless it's side part - then we'll use height as x1.
                 mask = mask_image[y0:y1, x0:x1, :]
+                img_processed = img[y0:y1, x0:x1,:]
+                if mask.shape != (200, 200, 3):
+                    mask = cv2.resize(mask, (200, 200))
+                    img_processed = cv2.resize(img_processed, (200,200))
+                    
                 total_area = mask.shape[0] * mask.shape[1]
 
                 for key, value in CLS_MAPPING.items():     # Iterating through class map to detect colors
@@ -71,7 +76,7 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
                         area = np.count_nonzero(mask == 255)
                         zero_labels[key] = area / total_area    # Let's calculate label area percentage for soft labeling
 
-                tiles.append(img[y0:y1, x0:x1,:])
+                tiles.append(img_processed)
                 generated_labels.append(zero_labels)
 
     split_idx = int(len(tiles)*train_val_ratio)

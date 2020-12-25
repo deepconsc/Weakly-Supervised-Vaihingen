@@ -32,7 +32,7 @@ def calc_loss(pred, target, features_conv, weights, metrics, bce_weight=0.5):
     loss = bce * bce_weight + area_loss * (1 - bce_weight)
     
     metrics['bce'] += bce.data.cpu().numpy() * target.size(0)
-    metrics['area'] += darea_lossice.data.cpu().numpy() * target.size(0)
+    metrics['area'] += area_ratios.data.cpu().numpy() * target.size(0)
     metrics['loss'] += loss.data.cpu().numpy() * target.size(0)
     
     return loss
