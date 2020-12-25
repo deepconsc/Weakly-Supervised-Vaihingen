@@ -41,9 +41,8 @@ class DataGenerator(Dataset):
         label = self.labels[idx]
         
         if self.train:
-            augmented_image = self.augmentor(image=cv2.resize(image, (200,200)))['image']
-
-        image = torch.from_numpy(augmented_image).permute(2,0,1)
+            augmented_image = self.augmentor(image=image)['image']
+        image = torch.from_numpy(cv2.resize(augmented_image, (200,200))).permute(2,0,1)
         label = torch.tensor(label)
 
 
