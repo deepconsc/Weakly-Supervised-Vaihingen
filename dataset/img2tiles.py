@@ -48,8 +48,10 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
 
     for e, img in tqdm(enumerate(image_paths)):
         img = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
-        mask = cv2.cvtColor(cv2.imread(mask_paths[e]), cv2.COLOR_BGR2RGB)
+        mask_image = cv2.cvtColor(cv2.imread(mask_paths[e]), cv2.COLOR_BGR2RGB)
 
+        assert(mask_image.shape == img.shape)
+        
         # Calculating number of horizontal and vertical windows
         stride_hrz = img.shape[0]//200
         stride_vrt = img.shape[1]//200
@@ -60,7 +62,7 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
             for x in range(stride_vrt+1):
                 zero_labels = np.zeros(5).astype(np.uint8)  # Zero-array for multi-class labels.
                 x0, x1 = (x*200, (x+1)*200) if x != stride_vrt else (x*200,img.shape[1])    # Move window vertically, unless it's side part - then we'll use height as x1.
-                mask = mask[y0:y1, x0:x1, :]
+                mask = mask_image[y0:y1, x0:x1, :]
                 total_area = mask.shape[0] * mask.shape[1]
 
                 for key, value in CLS_MAPPING.items():     # Iterating through class map to detect colors
