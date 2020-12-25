@@ -14,7 +14,7 @@ def generate_cam(feature_conv, weight):
     for x in range(bz):
         local_cam = []
         for idx in range(5):
-            beforeDot =  feature_conv.reshape((nc, h*w))
+            beforeDot =  feature_conv[x].reshape((nc, h*w))
             cam = np.matmul(weight[idx], beforeDot)
             cam = cam.reshape(h, w)
             cam = cam - np.min(cam)
