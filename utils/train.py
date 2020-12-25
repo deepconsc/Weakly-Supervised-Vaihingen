@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn 
 from collections import defaultdict
 from tqdm import tqdm
+from utils.pcam import generate_cam
 
 
 def calc_loss(pred, target, features_conv, weights, metrics, bce_weight=0.5):

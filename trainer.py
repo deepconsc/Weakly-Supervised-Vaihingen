@@ -6,7 +6,6 @@ from dataset.img2tiles import tilegenerator
 from dataset.dataloader import DataGenerator
 import logging 
 from models.resnet import ResNet50
-from utils.pcam import generate_cam
 import yaml 
 import torch.optim as optim
 from torch.optim import lr_scheduler
