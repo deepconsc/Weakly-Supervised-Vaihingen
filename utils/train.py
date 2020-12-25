@@ -66,7 +66,7 @@ def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders=None, de
 
             metrics = defaultdict(float)
             epoch_samples = 0
-            
+            iter = 0
             for inputs, labels in tqdm(dataloaders[phase]):
                 inputs = inputs.to(device)
                 labels = labels.to(device)             
@@ -78,12 +78,13 @@ def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders=None, de
                 # track history if only in train
                 with torch.set_grad_enabled(phase == 'train'):
                     output, registered, weights = model(inputs)
-                    loss = calc_loss(output, labels, registered, weights, metrics)
+                    loss = calc_loss(output, labels, registered, weights, metrics)/16  # Average loss by grad acc times
 
                     # backward + optimize only if in training phase
                     if phase == 'train':
                         loss.backward()
-                        optimizer.step()
+                        if iter % 16 == 0:  
+                            optimizer.step()    # if it's 16th iter, use the accumulated gradients
 
                 # statistics
                 epoch_samples += inputs.size(0)
