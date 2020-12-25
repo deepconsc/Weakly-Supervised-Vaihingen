@@ -5,3 +5,6 @@ opencv-python
 albumentations
 numpy
 tqdm
+fastapi
+uvicorn
+pydantic
