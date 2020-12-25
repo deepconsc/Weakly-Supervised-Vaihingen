@@ -42,7 +42,7 @@ def print_metrics(metrics, epoch_samples, phase):
         
     print("{}: {}".format(phase, ", ".join(outputs)))    
 
-def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders):
+def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders=None):
     best_model_wts = copy.deepcopy(model.state_dict())
     best_loss = 1e10
 
