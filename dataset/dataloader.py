@@ -25,9 +25,9 @@ class DataGenerator(Dataset):
         self.labels = dataclass[1]
         self.train = train
         self.augmentor = A.Compose([    # Augmentor
-        A.VerticalFlip(p=0.3),
-        A.HorizontalFlip(p=0.3),
-        A.RandomRotate90(p=0.3),
+            A.VerticalFlip(p=0.3),
+            A.HorizontalFlip(p=0.3),
+            A.RandomRotate90(p=0.3),
         ])
         # A.OneOf([
         #     A.ElasticTransform(p=0.4, alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03),
