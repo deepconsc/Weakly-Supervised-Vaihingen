@@ -3,7 +3,7 @@ train:
     num_images: 3
     device: 'cuda'
     parallel: False
-    batch_size: 1
+    batch_size: 16
     num_workers: 8
     epochs: 30
     

@@ -42,7 +42,7 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
 
     #image_paths = glob.glob(f'{image_paths}/*')  # Retrieve specific amount of img paths
     #mask_paths = [x.replace('{image_paths}/', 'gts_for_participants/') for x in image_paths] # Convert to mask paths
-    mask_paths = glob.glob('gts_for_participants/*')
+    mask_paths = glob.glob('gts_for_participants/*')[:num_images]
     image_paths = [x.replace('gts_for_participants/', 'top/') for x in mask_paths]
     tiles = []
     generated_labels = []

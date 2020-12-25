@@ -4,7 +4,9 @@ import torch.nn.functional as F
 
 """
 Class Activation Map generator function. 
-Basically taken from: https://gist.github.com/Arif159357/368de6364b0cd472897ae6665614c718#file-cam-py
+Basically taken and modify from: https://gist.github.com/Arif159357/368de6364b0cd472897ae6665614c718#file-cam-py
+
+We're iterating over batches and calculate class activation map over weights for each class.
 """
 
 def generate_cam(feature_conv, weight):
