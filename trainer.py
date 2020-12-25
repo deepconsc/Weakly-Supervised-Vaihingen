@@ -24,7 +24,7 @@ image_datasets = {
 
 batch_size = config['train']['batch_size']
 
-dataloaders = {
+dataset = {
     'train': DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=config['train']['num_workers']),
     'val': DataLoader(val_set, batch_size=4, shuffle=True, num_workers=0)
 }
@@ -40,4 +40,4 @@ model = ResNet50().cuda()
 
 optimizer_ft = optim.SGD(model.parameters(), lr=config['optimizer']['lr'], momentum=config['optimizer']['momentum'])
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=config['optimizer']['scheduler_steps'], gamma=config['optimizer']['gamma'])             
-model = train_model(model, optimizer_ft, exp_lr_scheduler, num_epochs=config['train']['epochs'], dataloaders)
+model = train_model(model, optimizer_ft, exp_lr_scheduler, num_epochs=config['train']['epochs'], dataloaders=dataset)
