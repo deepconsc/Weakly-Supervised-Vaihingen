@@ -70,7 +70,6 @@ def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders=None, de
 
             metrics = defaultdict(float)
             epoch_samples = 0
-            iter = 0
             for inputs, labels in tqdm(dataloaders[phase]):
                 inputs = inputs.to(device)
                 labels = labels.to(device)             
@@ -87,8 +86,7 @@ def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders=None, de
                     # backward + optimize only if in training phase
                     if phase == 'train':
                         loss.backward()
-                        if iter % 16 == 0:  
-                            optimizer.step()    # if it's 16th iter, use the accumulated gradients
+                        optimizer.step()    
 
                 # statistics
                 epoch_samples += inputs.size(0)
