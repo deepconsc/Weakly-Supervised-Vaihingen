@@ -26,7 +26,7 @@ class DataGenerator(Dataset):
         self.train = train
         self.augmentor = A.Compose([    # Augmentor
         A.VerticalFlip(p=0.3),
-        A.HorizontalalFlip(p=0.3),
+        A.HorizontalFlip(p=0.3),
         A.RandomRotate90(p=0.3),
         ])
         # A.OneOf([
