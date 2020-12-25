@@ -31,4 +31,4 @@ class ResNet50(nn.Module):
         x = x.view(x.shape[0], 2048)
         x = self.fc(x)
         weights = np.squeeze(F.softmax(list(self.fc.parameters())[-2]).detach().cpu().numpy())
-        return x, registered, weights
+        return F.softmax(x, dim=1), registered, weights
