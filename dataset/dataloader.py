@@ -28,6 +28,7 @@ class DataGenerator(Dataset):
         A.VerticalFlip(p=0.3),
         A.HorizontalalFlip(p=0.3),
         A.RandomRotate90(p=0.3),
+        ])
         # A.OneOf([
         #     A.ElasticTransform(p=0.4, alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03),
         #     A.GridDistortion(p=0.2),
