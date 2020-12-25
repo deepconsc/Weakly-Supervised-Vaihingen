@@ -12,9 +12,17 @@ For future update, DICE loss might be a good way to go as well.
 
 For activation map calculation we have to break computational graph, but it's worth trying.
 
-This commit is not fully tested yet. I have to run full trainer to check out some minimal bugs.
+### First iteration
+
+- Rewrote the patch generator & recoverer algorithms.
+- The trainer runs smoothly.
+- Adam works better than SGD.
+- Losses are decreasing.
+- Trainer is incredebly fast. Well, most of it comes from
+Resnet50 and 200x200 patches, but we're doing a lot of pre & post processing.
+- Needs heavier augmentation.
 
 
 ### TODO
 
-- First run
+- Code the visualization tool. Visual input would be much informative in this case.

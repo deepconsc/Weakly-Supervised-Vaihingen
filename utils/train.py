@@ -15,7 +15,7 @@ def calc_loss(pred, target, features_conv, weights, metrics, bce_weight=0.5):
     Additionally, treating class activation map area with >=90% probability as mask would be
     helpful for the model to learn. 
 
-    229 in Line 23 is around 90% of 255, which is max pixel intensity in map. 40000 just stands for 200x200 image area.
+    229 in Line 29 is around 90% of 255, which is max pixel intensity in map. 40000 just stands for 200x200 image area.
 
     """
     bce = F.binary_cross_entropy(pred.cpu(), target.clone().cpu())

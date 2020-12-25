@@ -2,7 +2,7 @@ import cv2
 import numpy as np 
 from tqdm import tqdm
 import glob 
-
+from dataset.patches import patch
 
 """
 Tile Generator function.
@@ -21,6 +21,7 @@ Color mapping would be the following:
 """
 
 CLS_MAPPING = {0:[255, 255, 255], 1:[  0,   0, 255], 2:[  0, 255, 255], 3:[  0, 255,   0], 4:[255, 255,   0]}
+TOTAL_AREA = 200 * 200 
 
 def tilegenerator(image_paths, num_images, train_val_ratio):
 
@@ -42,44 +43,31 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
 
     mask_paths = glob.glob('gts_for_participants/*')[:num_images]
     image_paths = [x.replace('gts_for_participants/', 'top/') for x in mask_paths]
-    tiles = []
-    generated_labels = []
+
+    total_images = []
+    labels = []
 
 
     for e, img in tqdm(enumerate(image_paths)):
-        img = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
-        mask_image = cv2.cvtColor(cv2.imread(mask_paths[e]), cv2.COLOR_BGR2RGB)
+        image = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
+        mask = cv2.cvtColor(cv2.imread(mask_paths[e]), cv2.COLOR_BGR2RGB)
 
-        assert(mask_image.shape == img.shape)
+        _shape, tiles = patch(image)
+        shape_, masks = patch(mask)
+        assert(_shape == shape_)
 
-        # Calculating number of horizontal and vertical windows
-        stride_hrz = img.shape[0]//200
-        stride_vrt = img.shape[1]//200
+        for x in range(len(tiles)):
+            zero_labels = np.zeros(5).astype(np.float32)  # Zero-array for multi-class labels.
 
-        for y in range(stride_hrz+1):
-            y0, y1 = (y*200, (y+1)*200) if y != stride_hrz else (y*200,img.shape[0])    # Move window horizontally, unless it's side part - then we'll use width as y1.
+            for key, value in CLS_MAPPING.items():     # Iterating through class map to detect colors
+                probs = cv2.inRange(masks[x], np.array(value)-1, np.array(value)+1)
+                if 255 in probs:      # This is a horrible workaround to detect color in tile. Needed to hardcode yet.
+                    area = np.count_nonzero(probs == 255)
+                    zero_labels[key] = area / TOTAL_AREA    # Let's calculate label area percentage for soft labeling
 
-            for x in range(stride_vrt+1):
-                zero_labels = np.zeros(5).astype(np.float32)  # Zero-array for multi-class labels.
-                x0, x1 = (x*200, (x+1)*200) if x != stride_vrt else (x*200,img.shape[1])    # Move window vertically, unless it's side part - then we'll use height as x1.
-                mask = mask_image[y0:y1, x0:x1, :]
-                img_processed = img[y0:y1, x0:x1,:]
-                if mask.shape != (200, 200, 3):
-                    mask = cv2.resize(mask, (200, 200))
-                    img_processed = cv2.resize(img_processed, (200,200))
-                    
-                total_area = mask.shape[0] * mask.shape[1]
-
-                for key, value in CLS_MAPPING.items():     # Iterating through class map to detect colors
-                    probs = cv2.inRange(mask, np.array(value)-1, np.array(value)+1)
-                    if 255 in probs:      # This is a horrible workaround to detect color in tile. Needed to hardcode yet.
-                        area = np.count_nonzero(probs == 255)
-                        zero_labels[key] = area / total_area    # Let's calculate label area percentage for soft labeling
-
-                tiles.append(img_processed)
-                generated_labels.append(zero_labels)
-
+            labels.append(zero_labels)
+            [total_images.append(x) for x in tiles]
     split_idx = int(len(tiles)*train_val_ratio)
-    trainloader, valloader = (tiles[:split_idx], generated_labels[:split_idx]) , (tiles[split_idx:], generated_labels[split_idx:])
+    trainloader, valloader = (tiles[:split_idx], labels[:split_idx]) , (tiles[split_idx:], labels[split_idx:])
 
     return trainloader, valloader
