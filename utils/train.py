@@ -18,7 +18,7 @@ def calc_loss(pred, target, features_conv, weights, metrics, bce_weight=0.5):
     229 in Line 23 is around 90% of 255, which is max pixel intensity in map. 40000 just stands for 200x200 image area.
 
     """
-    bce = F.binary_cross_entropy(pred, target.clone())
+    bce = F.binary_cross_entropy(pred.cpu(), target.clone().cpu())
     
     area_ratios = []
     images = generate_cam(features_conv, weights)
@@ -27,7 +27,7 @@ def calc_loss(pred, target, features_conv, weights, metrics, bce_weight=0.5):
         area_ratios.append(area)
     
     area_ratios = torch.tensor(area_ratios, requires_grad=True)
-    area_loss = F.l1_loss(area_ratios, target)
+    area_loss = F.l1_loss(area_ratios.cpu(), target.cpu())
 
     loss = bce * bce_weight + area_loss * (1 - bce_weight)
     
