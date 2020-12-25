@@ -72,8 +72,9 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
                 total_area = mask.shape[0] * mask.shape[1]
 
                 for key, value in CLS_MAPPING.items():     # Iterating through class map to detect colors
-                    if 255 in cv2.inRange(mask, np.array(value)-1, np.array(value)+1):      # This is a horrible workaround to detect color in tile. Needed to hardcode yet.
-                        area = np.count_nonzero(mask == 255)
+                    probs = cv2.inRange(mask, np.array(value)-1, np.array(value)+1)
+                    if 255 in probs:      # This is a horrible workaround to detect color in tile. Needed to hardcode yet.
+                        area = np.count_nonzero(probs == 255)
                         zero_labels[key] = area / total_area    # Let's calculate label area percentage for soft labeling
 
                 tiles.append(img_processed)
