@@ -22,7 +22,7 @@ Color mapping would be the following:
 
 CLS_MAPPING = {0:[255, 255, 255], 1:[  0,   0, 255], 2:[  0, 255, 255], 3:[  0, 255,   0], 4:[255, 255,   0]}
 
-def tilegenerator(image_paths, train_val_ratio):
+def tilegenerator(image_paths, num_images, train_val_ratio):
 
     """
     Inputs 
@@ -40,12 +40,11 @@ def tilegenerator(image_paths, train_val_ratio):
 
     """
 
-      # 5 Color mapping 
     image_paths = glob.glob(f'{image_paths}/*')  # Retrieve specific amount of img paths
-    mask_paths = [x.replace('top/', 'gts_for_participants/') for x in image_paths] # Convert to mask paths
+    mask_paths = [x.replace('{image_paths}/', 'gts_for_participants/') for x in image_paths] # Convert to mask paths
 
-    images = []
-    labels = []
+    dataset = []
+
 
     for e, img in tqdm(enumerate(image_paths)):
         img = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
@@ -61,7 +60,7 @@ def tilegenerator(image_paths, train_val_ratio):
             for x in range(stride_vrt+1):
                 zero_labels = np.zeros(5).astype(np.uint8)  # Zero-array for multi-class labels.
                 x0, x1 = (x*200, (x+1)*200) if x != stride_vrt else (x*200,img.shape[1])    # Move window vertically, unless it's side part - then we'll use height as x1.
-                images.append(img[y0:y1, x0:x1,:])
+                images.append()
                 mask = mask[y0:y1, x0:x1, :]
                 total_area = mask.shape[0] * mask.shape[1]
 
@@ -69,9 +68,9 @@ def tilegenerator(image_paths, train_val_ratio):
                     if 255 in cv2.inRange(mask, np.array(value)-1, np.array(value)+1):      # This is a horrible workaround to detect color in tile. Needed to hardcode yet.
                         area = np.count_nonzero(mask == 255)
                         zero_labels[key] = area / total_area    # Let's calculate label area percentage for soft labeling
-                labels.append(zero_labels)
+                dataset.append([img[y0:y1, x0:x1,:], zero_labels])
 
     split_idx = int(len(images)*ratio)
-    trainloader, valloader = (images[:split_idx], labels[:split_idx]), (images[split_idx:], labels[split_idx:])
+    trainloader, valloader = dataset[:split_idx], dataset[split_idx:] 
 
     return trainloader, valloader
