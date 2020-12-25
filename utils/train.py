@@ -29,7 +29,7 @@ def calc_loss(pred, target, features_conv, weights, metrics, bce_weight=0.5):
             localarea.append(np.count_nonzero(img>=229) / (40000))
         area_ratios.append(localarea)
     
-    area_ratios = torch.tensor(area_ratios, requires_grad=True).
+    area_ratios = torch.tensor(area_ratios, requires_grad=True)
     area_loss = F.l1_loss(area_ratios.cpu(), target.cpu())
 
     loss = bce * bce_weight + area_loss * (1 - bce_weight)
