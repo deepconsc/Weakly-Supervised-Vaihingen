@@ -43,7 +43,7 @@ class DataGenerator(Dataset):
         if self.train:
             augmented_image = self.augmentor(image=image)['image']
         image = torch.tensor(cv2.resize(augmented_image, (200,200)), dtype=torch.float).permute(2,0,1)
-        label = torch.tensor(label, dtype=torch.float)
+        label = torch.tensor(label)
 
 
         return [image, label]
