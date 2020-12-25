@@ -3,7 +3,13 @@ import torch
 import torch.nn as nn
 from torchvision import models 
 import torch.nn.functional as F
+
+
 class ResNet50(nn.Module):
+    """
+    Resnet Class. We're going to use class activation map as auxiliary loss,
+    so we'd be returning last conv map and fc layer weights for every iteration.
+    """
 
     def __init__(self):
         super().__init__()
