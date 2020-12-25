@@ -26,12 +26,13 @@ class DataGenerator(Dataset):
         self.train = train
         self.augmentor = A.Compose([    # Augmentor
         A.VerticalFlip(p=0.3),
+        A.HorizontalalFlip(p=0.3),
         A.RandomRotate90(p=0.3),
-        A.OneOf([
-            A.ElasticTransform(p=0.4, alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03),
-            A.GridDistortion(p=0.2),
-            A.OpticalDistortion(distort_limit=1, shift_limit=0.5, p=1),
-        ], p=0.5)])
+        # A.OneOf([
+        #     A.ElasticTransform(p=0.4, alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03),
+        #     A.GridDistortion(p=0.2),
+        #     A.OpticalDistortion(distort_limit=1, shift_limit=0.5, p=1),
+        # ], p=0.5)])
         
     def __len__(self):
         return len(self.images)
@@ -42,7 +43,7 @@ class DataGenerator(Dataset):
         
         if self.train:
             augmented_image = self.augmentor(image=image)['image']
-        image = torch.tensor(cv2.resize(augmented_image, (200,200)), dtype=torch.float).permute(2,0,1)
+        image = torch.tensor(augmented_image, dtype=torch.float).permute(2,0,1)
         label = torch.tensor(label)
 
 
