@@ -51,7 +51,7 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
         mask_image = cv2.cvtColor(cv2.imread(mask_paths[e]), cv2.COLOR_BGR2RGB)
 
         assert(mask_image.shape == img.shape)
-        
+
         # Calculating number of horizontal and vertical windows
         stride_hrz = img.shape[0]//200
         stride_vrt = img.shape[1]//200
@@ -71,7 +71,7 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
                         zero_labels[key] = area / total_area    # Let's calculate label area percentage for soft labeling
                 dataset.append([img[y0:y1, x0:x1,:], zero_labels])
 
-    split_idx = int(len(images)*ratio)
+    split_idx = int(len(dataset)*ratio)
     trainloader, valloader = dataset[:split_idx], dataset[split_idx:] 
 
     return trainloader, valloader
