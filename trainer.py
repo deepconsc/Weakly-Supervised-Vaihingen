@@ -25,8 +25,8 @@ image_datasets = {
 batch_size = config['train']['batch_size']
 
 dataset = {
-    'train': DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=config['train']['num_workers']),
-    'val': DataLoader(val_set, batch_size=4, shuffle=True, num_workers=0)
+    'train': DataLoader(DataGenerator(train_set), batch_size=batch_size, shuffle=True, num_workers=config['train']['num_workers']),
+    'val': DataLoader(DataGenerator(val_set), batch_size=4, shuffle=True, num_workers=0)
 }
 
 dataset_sizes = {
