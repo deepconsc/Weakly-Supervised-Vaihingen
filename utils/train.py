@@ -3,6 +3,7 @@ import copy
 from torch.nn import functional as F 
 import torch 
 import torch.nn as nn 
+import numpy as np 
 from collections import defaultdict
 from tqdm import tqdm
 from utils.pcam import generate_cam
