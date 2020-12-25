@@ -4,7 +4,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 import albumentations as A
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 from random import randint 
 import tqdm
 
