@@ -43,7 +43,8 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
     image_paths = glob.glob(f'{image_paths}/*')  # Retrieve specific amount of img paths
     mask_paths = [x.replace('{image_paths}/', 'gts_for_participants/') for x in image_paths] # Convert to mask paths
 
-    dataset = []
+    tiles = []
+    generated_labels = []
 
 
     for e, img in tqdm(enumerate(image_paths)):
@@ -69,9 +70,11 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
                     if 255 in cv2.inRange(mask, np.array(value)-1, np.array(value)+1):      # This is a horrible workaround to detect color in tile. Needed to hardcode yet.
                         area = np.count_nonzero(mask == 255)
                         zero_labels[key] = area / total_area    # Let's calculate label area percentage for soft labeling
-                dataset.append([img[y0:y1, x0:x1,:], zero_labels])
 
-    split_idx = int(len(dataset)*train_val_ratio)
-    trainloader, valloader = dataset[:split_idx], dataset[split_idx:] 
+                tiles.append(img[y0:y1, x0:x1,:])
+                generated_labels.append(zero_labels)
+
+    split_idx = int(len(tiles)*train_val_ratio)
+    trainloader, valloader = (tiles[:split_idx], generated_labels[:split_idx]) , (tiles[split_idx:], generated_labels[split_idx:])
 
     return trainloader, valloader

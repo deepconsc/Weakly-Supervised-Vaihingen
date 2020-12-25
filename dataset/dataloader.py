@@ -20,9 +20,9 @@ HR image to tiles conversion is done separately beforehand.
 """
 
 class DataGenerator(Dataset):
-    def __init__(self, images, labels, train=True):
-        self.images = images 
-        self.labels = labels
+    def __init__(self, dataclass, train=True):
+        self.images = dataclass[0] 
+        self.labels = dataclass[1]
         self.train = train
         self.augmentor = A.Compose([    # Augmentor
         A.VerticalFlip(p=0.3),
