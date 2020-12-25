@@ -71,7 +71,7 @@ def tilegenerator(image_paths, num_images, train_val_ratio):
                         zero_labels[key] = area / total_area    # Let's calculate label area percentage for soft labeling
                 dataset.append([img[y0:y1, x0:x1,:], zero_labels])
 
-    split_idx = int(len(dataset)*ratio)
+    split_idx = int(len(dataset)*train_val_ratio)
     trainloader, valloader = dataset[:split_idx], dataset[split_idx:] 
 
     return trainloader, valloader
