@@ -4,3 +4,4 @@ PyYAML
 opencv-python
 albumentations
 numpy
+tqdm

@@ -4,6 +4,7 @@ from torch.nn import functional as F
 import torch 
 import torch.nn as nn 
 from collections import defaultdict
+from tqdm import tqdm
 
 
 def calc_loss(pred, target, features_conv, weights, metrics, bce_weight=0.5):
@@ -65,7 +66,7 @@ def train_model(model, optimizer, scheduler, num_epochs=25):
             metrics = defaultdict(float)
             epoch_samples = 0
             
-            for inputs, labels in dataloaders[phase]:
+            for inputs, labels in tqdm(dataloaders[phase]):
                 inputs = inputs.to(device)
                 labels = labels.to(device)             
 
