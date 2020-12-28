@@ -153,7 +153,7 @@ for epoch in range(params.num_epochs):
         iou_stats = torch.zeros(5)
         for i, (input, target) in enumerate(test_data_loader):
             
-                pred, d1, d2, d3, d4, d5, d6 = G(input.to(device))
+                pred, d1, d2, d3, d4, d5, d6 = G(input.cuda())
                 calculated_iou = iou(pred.detach().cpu().int().squeeze(0), target.int().squeeze(0))
                 iou_stats += calculated_iou
 
