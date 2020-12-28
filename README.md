@@ -59,3 +59,5 @@ Images below are all 5 classes 0 -> 4, from left to right respectively.
 
 - Train network for around 100 epochs.
 - Code needs refactoring, some of it was incorporated from official repositories.
+- Code deployment inference.
+- Code validation script, for additional 7 HR images.
