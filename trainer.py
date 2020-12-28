@@ -63,7 +63,7 @@ train_data_loader = torch.utils.data.DataLoader(dataset=train_data,
 # Test data
 test_data = DatasetFromFolder(folder='val')
 test_data_loader = torch.utils.data.DataLoader(dataset=test_data,
-                                               batch_size=1
+                                               batch_size=1,
                                                shuffle=False)
 
 test_input, test_target = test_data_loader.__iter__().__next__()
