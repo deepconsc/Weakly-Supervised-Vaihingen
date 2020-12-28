@@ -48,7 +48,7 @@ def plot_loss(d_losses, g_losses, num_epochs, save=False, save_dir='results/', s
 
 
 def plot_test_result(input, target, gen_image, epoch, training=True, save=False, save_dir='results/', show=False, fig_size=(5, 5)):
-    for x in range(8):
+    for x in range(input.shape[0]):
         np.save(f'results/{epoch+1}_input_{x}', input[x].squeeze(0).numpy().transpose(1,2,0))
         np.save(f'results/{epoch+1}_target_{x}', target[x].squeeze(0).numpy().transpose(1,2,0))
         np.save(f'results/{epoch+1}_gen_image_{x}', gen_image[x].squeeze(0).numpy().transpose(1,2,0))

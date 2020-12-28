@@ -64,7 +64,7 @@ train_data_loader = torch.utils.data.DataLoader(dataset=train_data,
 # Test data
 test_data = DatasetFromFolder(folder='val')
 test_data_loader = torch.utils.data.DataLoader(dataset=test_data,
-                                               batch_size=1,
+                                               batch_size=8,
                                                shuffle=False)
 
 test_input, test_target = test_data_loader.__iter__().__next__()
@@ -155,8 +155,11 @@ for epoch in range(params.num_epochs):
         for i, (input, target) in enumerate(test_data_loader):
             
                 pred, d1, d2, d3, d4, d5, d6 = G(input.cuda())
-                calculated_iou = iou(pred.detach().cpu().int().squeeze(0), target.int().squeeze(0))
-                iou_stats += calculated_iou
+                pred = pred.detach().cpu().int()
+                target = target.int()
+                for x in range(pred.shape[0]):
+                    calculated_iou = iou(pred[x],target[x])
+                    iou_stats += calculated_iou/pred.shape[0]
 
         print(f'Mean IoU: {torch.mean(iou_stats/i)*100:.2f}')
         print(f'Classwise IoU: ')
