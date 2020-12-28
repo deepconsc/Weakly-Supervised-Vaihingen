@@ -12,11 +12,6 @@ class DatasetFromFolder(data.Dataset):
     def __init__(self, folder='train'):
         super(DatasetFromFolder, self).__init__()
         self.image_filenames = glob.glob(f'{folder}/*image*')
-        self.direction = direction
-        self.transform = transform
-        self.resize_scale = resize_scale
-        self.crop_size = crop_size
-        self.fliplr = fliplr
         self.cls_mapping = {0:[255, 255, 255], 1:[  0,   0, 255], 2:[  0, 255, 255], 3:[  0, 255,   0], 4:[255, 255,   0]}
     
     def __getitem__(self, index):
