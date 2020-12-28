@@ -2,4 +2,5 @@ torch
 torchvision
 opencv-python
 matplotlib
-numpy
+numpy 
+fastapi
