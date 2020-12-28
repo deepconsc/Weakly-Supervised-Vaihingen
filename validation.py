@@ -20,7 +20,7 @@ model.eval().to(device)
 
 valdata = DatasetFromFolder(folder=args.datadir)
 val_data_loader = torch.utils.data.DataLoader(dataset=valdata,
-                                                batch_size=8,
+                                                batch_size=1,
                                                 shuffle=False)
 
 iou_stats = torch.zeros(5)
