@@ -25,21 +25,37 @@ layers' outputs as auxiliary loss for Generator.
 - Network runs smoothly, but it's slow. We're moving 5 channel target masks back and forth, that's why.
 - The results on 5th epoch are very much impressive.
 
+### Second Iteration
+
+- The results are stable and good. U^2-Net reached near-perfect results for around 50th epoch 
+with adversarial learning.
+- Added samples of 50th epoch.
+
 ### Predictions
 Upper - Predicted, Lower - Target.
 Images below are all 5 classes 0 -> 4, from left to right respectively.
 
-- 5th epoch, Batch 1. 
+**5th Epoch**
+- Batch 1. 
 ![Alt text](images/epoch_5_1.png?raw=true " ")
-- 5th epoch, Batch 2.
+- Batch 2.
 ![Alt text](images/epoch_5_2.png?raw=true " ")
-- 5th epoch, Batch 3. 
+- Batch 3. 
 ![Alt text](images/epoch_5_3.png?raw=true " ")
 
+
+**50th Epoch**
+- Batch 1. 
+![Alt text](images/epoch_50_1.png?raw=true " ")
+- Batch 2.
+![Alt text](images/epoch_50_2.png?raw=true " ")
+- Batch 3. 
+![Alt text](images/epoch_50_3.png?raw=true " ")
+- Batch 4. 
+![Alt text](images/epoch_50_4.png?raw=true " ")
 
 
 ### TODO
 
 - Train network for around 100 epochs.
-- Add requirements, trainer.
 - Code needs refactoring, some of it was incorporated from official repositories.
