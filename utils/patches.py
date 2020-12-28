@@ -14,8 +14,6 @@ midas = torch.hub.load("intel-isl/MiDaS", "MiDaS_small").cuda().eval()
 midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms")
 transform = midas_transforms.small_transform
 
-if train 
-
 
 def process(img):
     input_batch = transform(img).cuda()
