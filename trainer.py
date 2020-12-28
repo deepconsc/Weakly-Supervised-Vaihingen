@@ -136,10 +136,10 @@ for epoch in range(params.num_epochs):
         G_losses.append(G_loss.item())
         
         if step % 10 == 0:
-            logging.info('Epoch [%d/%d], Step [%d/%d], D_loss: %.4f, G_loss: %.4f'
+            print('Epoch [%d/%d], Step [%d/%d], D_loss: %.4f, G_loss: %.4f'
                   % (epoch+1, params.num_epochs, i+1, len(train_data_loader), D_loss.item(), G_loss.item()))
             sys.stdout.flush()
-            
+
         step += 1
 
     D_avg_loss = torch.mean(torch.FloatTensor(D_losses))
