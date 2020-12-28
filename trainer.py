@@ -135,7 +135,7 @@ for epoch in range(params.num_epochs):
         D_losses.append(D_loss.item())
         G_losses.append(G_loss.item())
         
-        if steps % 10 == 0:
+        if step % 10 == 0:
             logging.info('Epoch [%d/%d], Step [%d/%d], D_loss: %.4f, G_loss: %.4f'
                   % (epoch+1, params.num_epochs, i+1, len(train_data_loader), D_loss.item(), G_loss.item()))
 
