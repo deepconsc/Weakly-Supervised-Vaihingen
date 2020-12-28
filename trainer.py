@@ -13,7 +13,6 @@ from models.discriminator import Discriminator
 from utilities import plot 
 import argparse
 import os
-from logger import Logger
 from torch import nn 
 
 parser = argparse.ArgumentParser()
@@ -83,16 +82,6 @@ G.cuda()
 D.cuda()
 D.normal_weight_init(mean=0.0, std=0.02)
 
-# Set the logger
-D_log_dir = save_dir + 'D_logs'
-G_log_dir = save_dir + 'G_logs'
-if not os.path.exists(D_log_dir):
-    os.mkdir(D_log_dir)
-D_logger = Logger(D_log_dir)
-
-if not os.path.exists(G_log_dir):
-    os.mkdir(G_log_dir)
-G_logger = Logger(G_log_dir)
 
 # Loss function
 BCE_loss = torch.nn.BCELoss().cuda()
@@ -156,9 +145,6 @@ for epoch in range(params.num_epochs):
         print('Epoch [%d/%d], Step [%d/%d], D_loss: %.4f, G_loss: %.4f'
               % (epoch+1, params.num_epochs, i+1, len(train_data_loader), D_loss.item(), G_loss.item()))
 
-        # ============ TensorBoard logging ============#
-        D_logger.scalar_summary('losses', D_loss.item(), step + 1)
-        G_logger.scalar_summary('losses', G_loss.item(), step + 1)
         step += 1
 
     D_avg_loss = torch.mean(torch.FloatTensor(D_losses))
