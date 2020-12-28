@@ -1,7 +1,7 @@
 import torch
 from dataset.dataloader import DatasetFromFolder
 from models.u2net import U2NET
-from utils.iou import iou_calculation as iou
+from utilities.iou import iou_calculation as iou
 import argparse
 from tqdm import tqdm 
 

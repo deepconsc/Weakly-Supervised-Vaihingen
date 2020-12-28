@@ -10,7 +10,7 @@ from torch.autograd import Variable
 from dataset.dataloader import DatasetFromFolder
 from models.u2net import U2NET
 from models.discriminator import Discriminator
-from utils import plot 
+from utilities import plot 
 import argparse
 import os
 from logger import Logger
