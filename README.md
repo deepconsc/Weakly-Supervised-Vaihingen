@@ -26,11 +26,14 @@ layers' outputs as auxiliary loss for Generator.
 - The results on 5th epoch are very much impressive.
 
 ### Predictions
-- 5th epoch, Batch 1. Upper - Predicted, Lower - Target
+Upper - Predicted, Lower - Target.
+Images below are all 5 classes 0 -> 4, from left to right respectively.
+
+- 5th epoch, Batch 1. 
 ![Alt text](images/epoch_5_1.png?raw=true " ")
-- 5th epoch, Batch 2. Upper - Predicted, Lower - Target
+- 5th epoch, Batch 2.
 ![Alt text](images/epoch_5_2.png?raw=true " ")
-- 5th epoch, Batch 3. Upper - Predicted, Lower - Target
+- 5th epoch, Batch 3. 
 ![Alt text](images/epoch_5_3.png?raw=true " ")
 
 
