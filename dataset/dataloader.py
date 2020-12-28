@@ -9,10 +9,9 @@ import cv2
 
 
 class DatasetFromFolder(data.Dataset):
-    def __init__(self, image_dir, subfolder='train', direction='AtoB', transform=None, resize_scale=None, crop_size=None, fliplr=False):
+    def __init__(self, folder='train'):
         super(DatasetFromFolder, self).__init__()
-        self.input_path = os.path.join(image_dir, subfolder)
-        self.image_filenames = glob.glob(f'{subfolder}/*image*')
+        self.image_filenames = glob.glob(f'{folder}/*image*')
         self.direction = direction
         self.transform = transform
         self.resize_scale = resize_scale

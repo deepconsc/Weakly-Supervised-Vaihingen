@@ -8,14 +8,15 @@ import tqdm
 import cv2
 import torch 
 import numpy as np 
+from subprocess import run 
 
 midas = torch.hub.load("intel-isl/MiDaS", "MiDaS_small").cuda().eval()
 midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms")
 transform = midas_transforms.small_transform
 
-mask_paths = glob.glob('gts_for_participants/*')[:3]
-image_paths = [x.replace('gts_for_participants/', 'top/') for x in mask_paths]
-print(image_paths, mask_paths)
+if train 
+
+
 def process(img):
     input_batch = transform(img).cuda()
     with torch.no_grad():
@@ -35,22 +36,27 @@ def process(img):
     
     
         
-def patch(img, mask, num_generated, count):
+def patch(img, mask, num_generated, count, train=True):
     max_start_width = img.shape[1] - 100
     max_start_height = img.shape[0] - 100
-    print(img.shape)
     
     for x in tqdm.tqdm(range(num_generated)):
         center = (randint(100, max_start_height), randint(100, max_start_width))
         temporary_img = process(img[center[0]-100:center[0]+100, center[1]-100:center[1]+100])
         temporary_mask = mask[center[0]-100:center[0]+100, center[1]-100:center[1]+100]
         
-        np.save(f'train/image_{x}_{count}', temporary_img )
-        np.save(f'train/mask_{x}_{count}', temporary_mask )
+        if train:
+            path = 'train'
+        else: 
+            path = 'val'
+        np.save(f'{path}/image_{x}_{count}', temporary_img )
+        np.save(f'{path}/mask_{x}_{count}', temporary_mask )
         
         
-        
-for a in range(len(image_masks)):
-    image = cv2.cvtColor(cv2.imread(image_paths[a]), cv2.COLOR_BGR2RGB)
-    mask = cv2.cvtColor(cv2.imread(mask_paths[a]), cv2.COLOR_BGR2RGB)
-    patch(image, mask, 3000, a)
+def generator(num_gt, train): 
+    mask_paths = glob.glob('gts_for_participants/*')[:num_gt]
+    image_paths = [x.replace('gts_for_participants/', 'top/') for x in mask_paths]
+    for a in range(len(image_masks)):
+        image = cv2.cvtColor(cv2.imread(image_paths[a]), cv2.COLOR_BGR2RGB)
+        mask = cv2.cvtColor(cv2.imread(mask_paths[a]), cv2.COLOR_BGR2RGB)
+        patch(image, mask, 2000, a, train)

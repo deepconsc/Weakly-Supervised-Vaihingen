@@ -15,7 +15,6 @@ import argparse
 import os
 from logger import Logger
 from torch import nn 
-from u2net import U2NET
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', required=False, default='facades', help='input dataset')
@@ -64,17 +63,17 @@ def muti_bce_loss_fusion(d0, d1, d2, d3, d4, d5, d6, labels_v):
 
 
 # Train data
-train_data = DatasetFromFolder('', subfolder='train', direction=params.direction, transform=None,
-                               resize_scale=params.resize_scale, crop_size=params.crop_size, fliplr=params.fliplr)
+train_data = DatasetFromFolder(folder='train')
 train_data_loader = torch.utils.data.DataLoader(dataset=train_data,
                                                 batch_size=params.batch_size,
                                                 shuffle=True)
 
 # Test data
-test_data = DatasetFromFolder('', subfolder='val', direction=params.direction, transform=None)
+test_data = DatasetFromFolder(folder='val')
 test_data_loader = torch.utils.data.DataLoader(dataset=test_data,
                                                batch_size=params.batch_size,
                                                shuffle=False)
+
 test_input, test_target = test_data_loader.__iter__().__next__()
 
 
@@ -164,7 +163,11 @@ for epoch in range(params.num_epochs):
 
     D_avg_loss = torch.mean(torch.FloatTensor(D_losses))
     G_avg_loss = torch.mean(torch.FloatTensor(G_losses))
-
+    if epoch % 5 == 0:
+        torch.save({
+                    'model_g': G.state_dict(),
+                    'model_d': D.state_dict(),
+                }, f'model_epoch_{epoch}.pth')
     # avg loss values for plot
     D_avg_losses.append(D_avg_loss)
     G_avg_losses.append(G_avg_loss)
@@ -173,13 +176,3 @@ for epoch in range(params.num_epochs):
     gen_image,d1, d2, d3, d4, d5, d6 = G(Variable(test_input.cuda()))
     gen_image = gen_image.cpu().data
     plot.plot_test_result(test_input, test_target, gen_image, epoch, save=True, save_dir=save_dir)
-
-# Plot average losses
-plot.plot_loss(D_avg_losses, G_avg_losses, params.num_epochs, save=True, save_dir=save_dir)
-
-# Make gif
-plot.make_gif(params.dataset, params.num_epochs, save_dir=save_dir)
-
-# Save trained parameters of model
-torch.save(G.state_dict(), model_dir + 'generator_param.pkl')
-torch.save(D.state_dict(), model_dir + 'discriminator_param.pkl')
