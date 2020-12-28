@@ -151,7 +151,7 @@ for epoch in range(params.num_epochs):
                 }, f'model_epoch_{epoch}.pth')
         G.eval()
         iou_stats = torch.zeros(5)
-        for i, (input, target) in tqdm(enumerate(test_data_loader)):
+        for i, (input, target) in enumerate(test_data_loader):
             
                 pred, d1, d2, d3, d4, d5, d6 = model(input.to(device))
                 calculated_iou = iou(pred.detach().cpu().int().squeeze(0), target.int().squeeze(0))
