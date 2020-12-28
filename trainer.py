@@ -12,7 +12,7 @@ from models.u2net import U2NET
 from models.discriminator import Discriminator
 from utilities import plot 
 import argparse
-import os
+import os, sys
 from torch import nn 
 import logging
 
@@ -138,7 +138,8 @@ for epoch in range(params.num_epochs):
         if step % 10 == 0:
             logging.info('Epoch [%d/%d], Step [%d/%d], D_loss: %.4f, G_loss: %.4f'
                   % (epoch+1, params.num_epochs, i+1, len(train_data_loader), D_loss.item(), G_loss.item()))
-
+            sys.stdout.flush()
+            
         step += 1
 
     D_avg_loss = torch.mean(torch.FloatTensor(D_losses))
