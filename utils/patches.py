@@ -54,7 +54,7 @@ def patch(img, mask, num_generated, count, train=True):
 def generator(num_gt, train): 
     mask_paths = glob.glob('gts_for_participants/*')[:num_gt]
     image_paths = [x.replace('gts_for_participants/', 'top/') for x in mask_paths]
-    for a in range(len(image_masks)):
+    for a in range(len(image_paths)):
         image = cv2.cvtColor(cv2.imread(image_paths[a]), cv2.COLOR_BGR2RGB)
         mask = cv2.cvtColor(cv2.imread(mask_paths[a]), cv2.COLOR_BGR2RGB)
         patch(image, mask, 2000, a, train)
