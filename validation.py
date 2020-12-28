@@ -8,7 +8,7 @@ from tqdm import tqdm
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--datadir', required=True, help='Path to validation dataset')
 parser.add_argument('-c', '--checkpoint', required=True, help='Pretrained checkpoint')
-params = parser.parse_args()
+args = parser.parse_args()
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
