@@ -157,7 +157,6 @@ for epoch in range(params.num_epochs):
                 calculated_iou = iou(pred.detach().cpu().int().squeeze(0), target.int().squeeze(0))
                 iou_stats += calculated_iou
 
-        print(f'IoU calculation has been finished.')
         print(f'Mean IoU: {torch.mean(iou_stats/i)*100:.2f}')
         print(f'Classwise IoU: ')
         for x in range(5):
