@@ -19,7 +19,7 @@ from torch import nn
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', required=False, default='facades', help='input dataset')
 parser.add_argument('--direction', required=False, default='BtoA', help='input and target image order')
-parser.add_argument('--batch_size', type=int, default=1, help='train batch size')
+parser.add_argument('--batch_size', type=int, default=8, help='train batch size')
 parser.add_argument('--ngf', type=int, default=64)
 parser.add_argument('--ndf', type=int, default=64)
 parser.add_argument('--input_size', type=int, default=256, help='input size')

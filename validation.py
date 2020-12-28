@@ -26,7 +26,7 @@ val_data_loader = torch.utils.data.DataLoader(dataset=valdata,
 iou_stats = torch.zeros(5)
 for i, (input, target) in tqdm(enumerate(val_data_loader)):
     
-        pred = model(input.to(device))
+        pred, d1, d2, d3, d4, d5, d6 = model(input.to(device))
         calculated_iou = iou(pred.detach().cpu(), target)
         iou_stats += calculated_iou
 
