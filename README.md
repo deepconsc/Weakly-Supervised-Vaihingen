@@ -38,3 +38,5 @@ layers' outputs as auxiliary loss for Generator.
 ### TODO
 
 - Train network for around 100 epochs.
+- Add requirements, trainer.
+- Code needs refactoring, some of it was incorporated from official repositories.
