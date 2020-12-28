@@ -14,6 +14,7 @@ from utilities import plot
 import argparse
 import os
 from torch import nn 
+import logging
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size', type=int, default=8, help='train batch size')
