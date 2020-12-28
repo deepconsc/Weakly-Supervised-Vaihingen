@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 batch, epoch = 4, 7
 images = []
 
-pred, target = np.load(f'pix2pix/results/{epoch}_gen_image_{batch}.npy'), np.load(f'pix2pix/results/{epoch}_target_{batch}.npy')
+pred, target = np.load(f'results/{epoch}_gen_image_{batch}.npy'), np.load(f'results/{epoch}_target_{batch}.npy')
 
 for x in range(5):
     images.append(pred[:,:,x])
