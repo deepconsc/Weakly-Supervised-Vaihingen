@@ -31,7 +31,8 @@ for i, (input, target) in tqdm(enumerate(val_data_loader)):
         iou_stats += calculated_iou
 
 print(f'IoU calculation has been finished.')
-print(f'Mean IoU: {torch.mean(iou_stats/i)}')
+print(f'Mean IoU: {torch.mean(iou_stats/i)*100:.2f}')
 print(f'Classwise IoU: ')
 for x in range(5):
-    print(f'{x} - {iou_stats[x]/i}')
+    print(f'{x} - {iou_stats[x]/i*100:.2f}')
+
