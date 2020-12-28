@@ -63,7 +63,7 @@ train_data_loader = torch.utils.data.DataLoader(dataset=train_data,
 # Test data
 test_data = DatasetFromFolder(folder='val')
 test_data_loader = torch.utils.data.DataLoader(dataset=test_data,
-                                               batch_size=params.batch_size,
+                                               batch_size=1
                                                shuffle=False)
 
 test_input, test_target = test_data_loader.__iter__().__next__()
@@ -149,6 +149,20 @@ for epoch in range(params.num_epochs):
                     'model_g': G.state_dict(),
                     'model_d': D.state_dict(),
                 }, f'model_epoch_{epoch}.pth')
+        G.eval()
+        iou_stats = torch.zeros(5)
+        for i, (input, target) in tqdm(enumerate(test_data_loader)):
+            
+                pred, d1, d2, d3, d4, d5, d6 = model(input.to(device))
+                calculated_iou = iou(pred.detach().cpu().int().squeeze(0), target.int().squeeze(0))
+                iou_stats += calculated_iou
+
+        print(f'IoU calculation has been finished.')
+        print(f'Mean IoU: {torch.mean(iou_stats/i)*100:.2f}')
+        print(f'Classwise IoU: ')
+        for x in range(5):
+            print(f'{x} - {iou_stats[x]/i*100:.2f}')
+        G.train()
     # avg loss values for plot
     D_avg_losses.append(D_avg_loss)
     G_avg_losses.append(G_avg_loss)
