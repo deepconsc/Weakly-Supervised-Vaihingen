@@ -145,7 +145,7 @@ for epoch in range(params.num_epochs):
 
     D_avg_loss = torch.mean(torch.FloatTensor(D_losses))
     G_avg_loss = torch.mean(torch.FloatTensor(G_losses))
-    if epoch % 5 == 0:
+    if epoch+1 % 5 == 0:
         torch.save({
                     'model_g': G.state_dict(),
                     'model_d': D.state_dict(),
