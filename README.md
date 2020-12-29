@@ -42,6 +42,8 @@ Binary ACC is by conversion of 5-dim output mask to 1-dim mask. This way we
 don't have to tackle with false accuracy scores, when background is huge in
 many images. 
 
+In this case, Binary ACC is the most precise total class mask accuracy. 
+
 ```
 Mean IoU: 91.50
 Accuracy: 91.50
