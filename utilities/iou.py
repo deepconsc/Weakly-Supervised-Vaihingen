@@ -1,10 +1,17 @@
 import torch 
+from sklearn.metrics import jaccard_similarity_score as jsc
 
+def jaccard(pred, target):
+    jac_classwise = []
 
-def iou_calculation(outputs, labels):
+    for x in range(pred.shape[0]):
+        jac_classwise.append(jsc(pred[x].reshape(-1), target[x].reshape(-1)))
+    return jac_classwise
+
+def iou_calculation(pred, target):
     
-    intersection = (outputs & labels).float().sum((1, 2))  
-    union = (outputs | labels).float().sum((1, 2)) 
+    intersection = (pred & target).float().sum((1, 2))  
+    union = (pred | target).float().sum((1, 2)) 
     
     iou = (intersection + 1e-6) / (union + 1e-6)  
         

@@ -1,7 +1,7 @@
 import torch
 from dataset.dataloader import DatasetFromFolder
 from models.u2net import U2NET
-from utilities.iou import iou_calculation as iou
+from utilities.iou import jaccard
 import argparse
 from tqdm import tqdm 
 
@@ -27,7 +27,7 @@ iou_stats = torch.zeros(5)
 for i, (input, target) in tqdm(enumerate(val_data_loader)):
     
         pred, d1, d2, d3, d4, d5, d6 = model(input.to(device))
-        calculated_iou = iou(pred.detach().cpu().int().squeeze(0), target.int().squeeze(0))
+        calculated_iou = jaccard(pred.detach().cpu().int().squeeze(0), target.int().squeeze(0))
         iou_stats += calculated_iou
 
 print(f'IoU calculation has been finished.')
