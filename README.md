@@ -43,10 +43,10 @@ don't have to tackle with false accuracy scores, when background is huge in
 many images. 
 
 ```
-Mean IoU: **91.50**
-Accuracy: **91.50**
-F1: **0.55**
-Binary ACC: **0.78**
+Mean IoU: 91.50
+Accuracy: 91.50
+F1: 0.55
+Binary ACC: 0.78
 Classwise IoU: 
 0 - 85.20
 1 - 95.41
