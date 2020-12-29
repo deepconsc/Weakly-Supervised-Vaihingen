@@ -31,6 +31,30 @@ layers' outputs as auxiliary loss for Generator.
 with adversarial learning.
 - Added samples of 50th epoch.
 
+### Third Iteration
+
+- Training is almost finished, 180 epochs.
+- Added validation script of unseen 7 HR images.
+
+### Reported Metrics on 3rd iteration:
+IoU is pure jaccard similarity score.
+Binary ACC is by conversion of 5-dim output mask to 1-dim mask. This way we 
+don't have to tackle with false accuracy scores, when background is huge in
+many images. 
+
+```
+Mean IoU: **91.50**
+Accuracy: **91.50**
+F1: **0.55**
+Binary ACC: **0.78**
+Classwise IoU: 
+0 - 85.20
+1 - 95.41
+2 - 85.73
+3 - 91.95
+4 - 99.20
+```
+
 ### Predictions
 Upper - Predicted, Lower - Target.
 Images below are all 5 classes 0 -> 4, from left to right respectively.
@@ -54,10 +78,3 @@ Images below are all 5 classes 0 -> 4, from left to right respectively.
 - Batch 4. 
 ![Alt text](images/epoch_50_4.png?raw=true " ")
 
-
-### TODO
-
-- Train network for around 100 epochs.
-- Code needs refactoring, some of it was incorporated from official repositories.
-- Code deployment inference.
-- Code validation script, for additional 7 HR images.

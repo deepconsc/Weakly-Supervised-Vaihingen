@@ -33,9 +33,8 @@ for i, (input, target) in tqdm(enumerate(val_data_loader)):
         out = metrics(pred.detach().cpu().int().squeeze(0), target.int().squeeze(0))
         acc += out[0]
         f1 += out[1]
-        mcc += out[2]
-        binary += out[3]
-        iou_stats += out[4]
+        binary += out[2]
+        iou_stats += out[3]
 
 
 print(f'Metrics calculation has been finished.')
