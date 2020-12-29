@@ -6,7 +6,7 @@ def jaccard(pred, target):
 
     for x in range(pred.shape[0]):
         jac_classwise.append(jsc(pred[x].reshape(-1), target[x].reshape(-1)))
-    return jac_classwise
+    return torch.tensor(jac_classwise)
 
 def iou_calculation(pred, target):
     
