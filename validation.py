@@ -24,7 +24,6 @@ val_data_loader = torch.utils.data.DataLoader(dataset=valdata,
                                                 shuffle=False)
 
 
-acc/pred.shape[0], f1/pred.shape[0], mcc/pred.shape[0], binary_acc(pred, target), jaccard(pred, target)
 acc, f1, mcc, binary = 0, 0, 0, 0
 iou_stats = torch.zeros(5)
 
