@@ -2,6 +2,7 @@ import torch
 from sklearn.metrics import jaccard_similarity_score as jsc
 import sklearn
 import numpy as np 
+from math import sqrt
 
 def jaccard(pred, target):
     jac_classwise = []
@@ -37,7 +38,7 @@ def metrics(pred, target):
             tn, fp, fn, tp = sklearn.metrics.confusion_matrix(pred[x].reshape(-1), target[x].reshape(-1)).ravel()   
             acc += (tp+tn)/(tp+tn+fp+fn)
             f1 += (2*(tp))/(2*(tp+fp+fn))
-            mcc += ((tp*tn)-(fp*fn))/np.sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn))
+            mcc += ((tp*tn)-(fp*fn))/sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn))
     
     return acc/pred.shape[0], f1/pred.shape[0], mcc/pred.shape[0], binary_acc(pred, target), jaccard(pred, target)
 
