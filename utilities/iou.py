@@ -1,5 +1,6 @@
 import torch 
 from sklearn.metrics import jaccard_similarity_score as jsc
+import sklearn
 
 def jaccard(pred, target):
     jac_classwise = []
