@@ -15,7 +15,7 @@ import argparse
 import os, sys
 from torch import nn 
 import logging
-from utilities.iou import iou_calculation as iou
+from utilities.iou import jaccard
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size', type=int, default=8, help='train batch size')
@@ -30,12 +30,10 @@ print(params)
 
 
 save_dir = 'results/'
-model_dir = 'model/'
 
 if not os.path.exists(save_dir):
     os.mkdir(save_dir)
-if not os.path.exists(model_dir):
-    os.mkdir(model_dir)
+
 
 bce_loss_ = nn.BCELoss(size_average=True)
 
@@ -158,7 +156,7 @@ for epoch in range(params.num_epochs):
                 pred = pred.detach().cpu().int()
                 target = target.int()
                 for x in range(pred.shape[0]):
-                    calculated_iou = iou(pred[x],target[x])
+                    calculated_iou = jaccard(pred[x],target[x])
                     iou_stats += calculated_iou/pred.shape[0]
 
         print(f'Mean IoU: {torch.mean(iou_stats/i)*100:.2f}')
