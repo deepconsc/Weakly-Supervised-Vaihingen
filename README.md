@@ -44,6 +44,8 @@ many images.
 
 In this case, Binary ACC is the most precise total class mask accuracy. 
 
+The validation is done on 7 unseen HR images in the dataset.
+
 ```
 Mean IoU: 91.50
 Accuracy: 91.50
