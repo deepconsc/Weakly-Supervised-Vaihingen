@@ -95,5 +95,5 @@ transform = midas_transforms.small_transform
 
 # Generate train images. We generate 1000 tile per HR image, 
 # 3000 will be used with pixel-level annotations, rest for classification
-generator(num_gt=26, num_total=1000, train=True, custom=False)
+generator(num_gt=26, num_total=2000, train=True, custom=False)
 generator(num_gt=3, num_total=300, train=False, custom=False)

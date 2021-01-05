@@ -13,7 +13,7 @@ class DatasetFromFolder(data.Dataset):
         super(DatasetFromFolder, self).__init__()
         self.pretraining = pretraining
         if not self.pretraining and folder == 'train':
-            self.image_filenames = glob.glob(f'train/*image*')[:3000]
+            self.image_filenames = glob.glob(f'train/*image*')[:6000]
         if not self.pretraining and folder == 'val':
             self.image_filenames = glob.glob(f'val/*image*')
         if self.pretraining:
