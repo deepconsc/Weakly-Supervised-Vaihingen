@@ -36,6 +36,13 @@ with adversarial learning.
 - Training is almost finished, 180 epochs.
 - Added validation script of unseen 7 HR images.
 
+
+### Final Iteration
+
+- Converted U^2-Net as Encoder + classifier. Pretrained it on 23 HR images' tile-level class labels.
+- Took classifier away & trained on 3 HR images' full-pixel masks.
+- Metrics report is coming soon.
+
 ### Reported Metrics on 3rd iteration:
 IoU is pure jaccard similarity score.
 Binary ACC is by conversion of 5-dim output mask to 1-dim mask. This way we 
