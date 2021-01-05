@@ -1,20 +1,27 @@
 import torch
 from dataset.patch_recover import patch as cutout
+from dataset.patch_recover import recover
 import cv2 
 import numpy as np 
 import logging 
 from pydantic import BaseModel
-
+from generate_data import process
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-def process():
+def inference(img):
+        shape = img.shape
+        processed = []
         _, images = cutout(img)
-        _, masks = cutout(mask)
         for x in tqdm.tqdm(range(len(images))):
-                temporary_img = process(images[x])
-                temporary_mask = masks[x]
+                input = process(images[x])
+                input = torch.tensor((input - [0.5, 0.5, 0.5, 0.5]) / [0.5, 0.5, 0.5, 0.5], dtype=torch.float).permute(2,0,1).unsqueeze(0)
+                input = F.interpolate(input, (256,256)).squeeze(0).to(device)
+                mask = model(input, classify=False).detach().cpu().numpy().permute(1,2,0)
+                processed.append(mask)
+        out = recover(shape, processed)
+        return out
 
 
 
@@ -52,4 +59,6 @@ model = torch.jit.load('u2net_graph.cpp').to(device).eval()
 
 class JsonData(BaseModel):
     image: str
+
+
 
