@@ -1,16 +1,27 @@
 import torch
-from dataset.dataloader import DatasetFromFolder
-from models.u2net import U2NET
-from utilities.iou import metrics
-import argparse
-from tqdm import tqdm 
+from dataset.patch_recover import patch as cutout
+import cv2 
+import numpy as np 
+import logging 
+from pydantic import BaseModel
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--datadir', required=True, help='Path to validation dataset')
-parser.add_argument('-c', '--checkpoint', required=True, help='Pretrained checkpoint')
-args = parser.parse_args()
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+
+def process():
+        _, images = cutout(img)
+        _, masks = cutout(mask)
+        for x in tqdm.tqdm(range(len(images))):
+                temporary_img = process(images[x])
+                temporary_mask = masks[x]
+
+
+
+def b2i(imgstring):
+    nparr = np.fromstring(base64.b64decode(imgstring), np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    return img
 
 def weights_init():
     weights = glob.glob('*.cpp')
@@ -39,5 +50,6 @@ weights_init()
 model = torch.jit.load('u2net_graph.cpp').to(device).eval()
 
 
-
+class JsonData(BaseModel):
+    image: str
 

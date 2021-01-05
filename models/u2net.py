@@ -357,10 +357,25 @@ class U2NET(nn.Module):
         self.side4 = nn.Conv2d(256,out_ch,3,padding=1)
         self.side5 = nn.Conv2d(512,out_ch,3,padding=1)
         self.side6 = nn.Conv2d(512,out_ch,3,padding=1)
+        self.last_conv = nn.Sequential(
+            nn.MaxPool2d(2,stride=2,ceil_mode=True),
+            nn.Conv2d(512,512,3,padding=1),
+            nn.BatchNorm2d(512),
+            nn.ReLU(),
+
+            nn.MaxPool2d(2,stride=2,ceil_mode=True),
+            nn.Conv2d(512,512,3,padding=1),
+            nn.BatchNorm2d(512),
+            nn.ReLU()
+        )
+        self.fc = nn.Sequential(
+            nn.Linear(in_features=2048, out_features=5),
+            nn.ReLU()
+        )
 
         self.outconv = nn.Conv2d(30,5,1)
 
-    def forward(self,x):
+    def forward(self,x, classify=False):
 
         hx = x
 
@@ -388,9 +403,15 @@ class U2NET(nn.Module):
         hx6 = self.stage6(hx)
         hx6up = _upsample_like(hx6,hx5)
 
+        if classify:
+            out = self.last_conv(hx6)
+            out = torch.flatten(out, start_dim=1)
+            out = self.fc(out)
+            return out
         #-------------------- decoder --------------------
         hx5d = self.stage5d(torch.cat((hx6up,hx5),1))
         hx5dup = _upsample_like(hx5d,hx4)
+
 
         hx4d = self.stage4d(torch.cat((hx5dup,hx4),1))
         hx4dup = _upsample_like(hx4d,hx3)
@@ -425,4 +446,3 @@ class U2NET(nn.Module):
         d0 = self.outconv(torch.cat((d1,d2,d3,d4,d5,d6),1))
 
         return F.sigmoid(d0), F.sigmoid(d1), F.sigmoid(d2), F.sigmoid(d3), F.sigmoid(d4), F.sigmoid(d5), F.sigmoid(d6)
-

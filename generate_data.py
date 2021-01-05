@@ -11,11 +11,15 @@ import numpy as np
 from subprocess import run 
 from dataset.patch_recover import patch as cutout
 
-midas = torch.hub.load("intel-isl/MiDaS", "MiDaS_small").cuda().eval()
-midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms")
-transform = midas_transforms.small_transform
+parser = argparse.ArgumentParser()
+parser.add_argument('--gt', type=str, default='mosaic_gts', help='ground-truth images directory')
+parser.add_argument('--images', type=str, default='top', help='images directory')
+args = parser.parse_args()
 
 
+localfiles = glob.glob('*')
+if 'train' not in localfiles and 'val' not in localfiles:
+    run('mkdir train val', shell=True)
 
 def process(img):
     input_batch = transform(img).cuda()
@@ -73,11 +77,25 @@ def patch(img, mask, num_generated, count, train=True, custom=False):
         
 def generator(num_gt, num_total, train, custom): 
     if custom:
-        mask_paths = glob.glob('gts_for_participants/*')[3:3+num_gt]
+        mask_paths = glob.glob(f'{args.gt}/*')[3:3+num_gt]
     else:
-        mask_paths = glob.glob('gts_for_participants/*')[:num_gt]
-    image_paths = [x.replace('gts_for_participants/', 'top/') for x in mask_paths]
+        mask_paths = glob.glob(f'{args.gt}/*')[:num_gt]
+    image_paths = [x.replace(f'{args.gt}', f'{args.images}') for x in mask_paths]
     for a in range(len(image_paths)):
         image = cv2.cvtColor(cv2.imread(image_paths[a]), cv2.COLOR_BGR2RGB)
         mask = cv2.cvtColor(cv2.imread(mask_paths[a]), cv2.COLOR_BGR2RGB)
         patch(image, mask, num_total, a, train, custom)
+
+
+
+
+
+
+midas = torch.hub.load("intel-isl/MiDaS", "MiDaS_small").cuda().eval()
+midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms")
+transform = midas_transforms.small_transform
+
+# Generate train images. We generate 1000 tile per HR image, 
+# 3000 will be used with pixel-level annotations, rest for classification
+generator(num_gt=26, num_total=1000, train=True, custom=False)
+generator(num_gt=3, num_total=300, train=False, custom=False)
