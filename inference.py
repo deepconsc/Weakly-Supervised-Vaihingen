@@ -60,5 +60,7 @@ model = torch.jit.load('u2net_graph.cpp').to(device).eval()
 class JsonData(BaseModel):
     image: str
 
-
+'''
+This has to be finished yet.
+'''
 

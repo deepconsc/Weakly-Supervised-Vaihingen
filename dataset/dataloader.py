@@ -9,6 +9,13 @@ import cv2
 
 
 class DatasetFromFolder(data.Dataset):
+    '''
+    Dataset class.
+    Contains dataloaders for both - pretraining (classifier) and training (segmentation) approaches.
+    As long as we're handling with 4 and 5 channel tensors, augmentation is a bit tricky. 
+
+    I've implemented torch.: flipud, fliplr, rot90 augmentation methods to handle images as raw tensors.
+    '''
     def __init__(self, folder='train', pretraining=False):
         super(DatasetFromFolder, self).__init__()
         self.pretraining = pretraining
@@ -23,7 +30,6 @@ class DatasetFromFolder(data.Dataset):
         self.cls_mapping = {0:[255, 255, 255], 1:[  0,   0, 255], 2:[  0, 255, 255], 3:[  0, 255,   0], 4:[255, 255,   0]}
         
     def __getitem__(self, index):
-        # Load Image
         imgname = self.image_filenames[index]
         maskname = imgname.replace('image', 'mask')
         
