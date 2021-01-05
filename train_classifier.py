@@ -2,7 +2,6 @@ import cv2
 import torch 
 import torch.nn as nn 
 from torch.utils.data import DataLoader
-from dataset.img2tiles import tilegenerator
 from dataset.dataloader import DataGenerator
 import logging 
 import torch.optim as optim
@@ -19,7 +18,6 @@ from torch.nn import functional as F
 import numpy as np 
 from collections import defaultdict
 from tqdm import tqdm
-from utils.pcam import generate_cam
 
 
 bce = nn.BCEWithLogitsLoss()
