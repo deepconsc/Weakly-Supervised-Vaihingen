@@ -2,7 +2,7 @@ import cv2
 import torch 
 import torch.nn as nn 
 from torch.utils.data import DataLoader
-from dataset.dataloader import DataGenerator
+from dataset.dataloader import DatasetFromFolder
 import logging 
 import torch.optim as optim
 from torch.optim import lr_scheduler
