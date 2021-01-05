@@ -76,6 +76,7 @@ for name, child in G.named_children():
     if name in ['stage1', 'pool12', 'stage2', 'pool23', 'stage3', 'pool34', 'stage4', 'pool45', 'stage5', 'pool56', 'stage6','last_conv', 'fc']:
         for param in child.parameters():
             param.requires_grad = False
+
 G.cuda()
 D = Discriminator(9, 64, 1)
 D.cuda()
@@ -150,7 +151,7 @@ for epoch in range(params.num_epochs):
 
     D_avg_loss = torch.mean(torch.FloatTensor(D_losses))
     G_avg_loss = torch.mean(torch.FloatTensor(G_losses))
-    if epoch+1 % 5 == 0:
+    if epoch % 5 == 0:
         torch.save({
                     'model_g': G.state_dict(),
                     'model_d': D.state_dict(),
