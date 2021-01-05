@@ -12,13 +12,13 @@ from models.u2net import U2NET
 from models.discriminator import Discriminator
 from utilities import plot 
 import argparse
-import os, sys
+import os, sys, glob
 from torch import nn 
 import logging
 from utilities.iou import jaccard
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--batch_size', type=int, default=8, help='train batch size')
+parser.add_argument('--batch_size', type=int, default=12, help='train batch size')
 parser.add_argument('--num_epochs', type=int, default=200, help='number of train epochs')
 parser.add_argument('--lrG', type=float, default=0.0002, help='learning rate for generator, default=0.0002')
 parser.add_argument('--lrD', type=float, default=0.0002, help='learning rate for discriminator, default=0.0002')
@@ -67,10 +67,17 @@ test_data_loader = torch.utils.data.DataLoader(dataset=test_data,
 
 test_input, test_target = test_data_loader.__iter__().__next__()
 
+chks = sorted(glob.glob('*.pth'), key=os.path.getmtime)
 
 G = U2NET()
-D = Discriminator(9, 64, 1)
+G.load_state_dict(torch.load(chks[-1])['model'])
+
+for name, child in G.named_children():
+    if name in ['stage1', 'pool12', 'stage2', 'pool23', 'stage3', 'pool34', 'stage4', 'pool45', 'stage5', 'pool56', 'stage6','last_conv', 'fc']:
+        for param in child.parameters():
+            param.requires_grad = False
 G.cuda()
+D = Discriminator(9, 64, 1)
 D.cuda()
 D.normal_weight_init(mean=0.0, std=0.02)
 
@@ -104,7 +111,7 @@ for epoch in range(params.num_epochs):
         real_ = Variable(torch.ones(D_real_decision.size()).cuda())
         D_real_loss = BCE_loss(D_real_decision, real_)
         # Train discriminator with fake data
-        gen_image, d1, d2, d3, d4, d5, d6 = G(x_)
+        gen_image, d1, d2, d3, d4, d5, d6 = G(x_, classify=False)
         D_fake_decision = D(x_, gen_image).squeeze()
         fake_ = Variable(torch.zeros(D_fake_decision.size()).cuda())
         D_fake_loss = BCE_loss(D_fake_decision, fake_)
@@ -116,7 +123,7 @@ for epoch in range(params.num_epochs):
         D_optimizer.step()
 
         # Train generator
-        gen_image, d1, d2, d3, d4, d5, d6 = G(x_)
+        gen_image, d1, d2, d3, d4, d5, d6 = G(x_, classify=False)
         auxiliary = muti_bce_loss_fusion(gen_image, d1, d2, d3, d4, d5, d6, y_)
         D_fake_decision = D(x_, gen_image).squeeze()
         G_fake_loss = BCE_loss(D_fake_decision, real_)
@@ -152,7 +159,7 @@ for epoch in range(params.num_epochs):
         iou_stats = torch.zeros(5)
         for i, (input, target) in enumerate(test_data_loader):
             
-                pred, d1, d2, d3, d4, d5, d6 = G(input.cuda())
+                pred, d1, d2, d3, d4, d5, d6 = G(input.cuda(), classify=False)
                 pred = pred.detach().cpu().int()
                 target = target.int()
                 for x in range(pred.shape[0]):
@@ -169,6 +176,6 @@ for epoch in range(params.num_epochs):
     G_avg_losses.append(G_avg_loss)
     
     # Show result for test image
-    gen_image,d1, d2, d3, d4, d5, d6 = G(Variable(test_input.cuda()))
+    gen_image,d1, d2, d3, d4, d5, d6 = G(Variable(test_input.cuda()), classify=False)
     gen_image = gen_image.cpu().data
     plot.plot_test_result(test_input, test_target, gen_image, epoch, save=True, save_dir=save_dir)
