@@ -3,12 +3,9 @@ import numpy as np
 from math import ceil
 from random import randint
 import argparse
-
 import glob
 import tqdm
-import cv2
 import torch 
-import numpy as np 
 from subprocess import run 
 from dataset.patch_recover import patch as cutout
 

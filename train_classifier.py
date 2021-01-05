@@ -137,7 +137,7 @@ if __name__ == '__main__':
 
     dataset = {
         'train':train_data_loader,
-        'val': test_data_loader)
+        'val': test_data_loader
     }
 
 
