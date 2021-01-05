@@ -16,7 +16,7 @@ class DatasetFromFolder(data.Dataset):
             self.image_filenames = glob.glob(f'train/*image*')[:3000]
         if not self.pretraining and folder == 'val':
             self.image_filenames = glob.glob(f'val/*image*')
-        if self.pretraining;
+        if self.pretraining:
             self.image_filenames = glob.glob(f'{folder}/*image*')
 
 
