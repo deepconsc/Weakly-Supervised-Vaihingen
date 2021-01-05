@@ -25,7 +25,7 @@ class DatasetFromFolder(data.Dataset):
         if self.pretraining:
             zero_labels = np.zeros(5).astype(np.float32)  
 
-            for key, value in self.CLS_MAPPING.items():    
+            for key, value in self.cls_mapping.items():    
                 probs = cv2.inRange(target, np.array(value)-1, np.array(value)+1)
                 if 255 in probs:      
                     zero_labels[key] = 1.0  
