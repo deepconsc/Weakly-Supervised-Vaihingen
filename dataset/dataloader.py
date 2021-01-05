@@ -11,9 +11,17 @@ import cv2
 class DatasetFromFolder(data.Dataset):
     def __init__(self, folder='train', pretraining=False):
         super(DatasetFromFolder, self).__init__()
-        self.image_filenames = glob.glob(f'{folder}/*image*')
-        self.cls_mapping = {0:[255, 255, 255], 1:[  0,   0, 255], 2:[  0, 255, 255], 3:[  0, 255,   0], 4:[255, 255,   0]}
         self.pretraining = pretraining
+        if not self.pretraining and folder == 'train':
+            self.image_filenames = glob.glob(f'train/*image*')[:3000]
+        if not self.pretraining and folder == 'val':
+            self.image_filenames = glob.glob(f'val/*image*')
+        if self.pretraining;
+            self.image_filenames = glob.glob(f'{folder}/*image*')
+
+
+        self.cls_mapping = {0:[255, 255, 255], 1:[  0,   0, 255], 2:[  0, 255, 255], 3:[  0, 255,   0], 4:[255, 255,   0]}
+        
     def __getitem__(self, index):
         # Load Image
         imgname = self.image_filenames[index]

@@ -150,8 +150,8 @@ if __name__ == '__main__':
 
 
     optimizer_ft = optim.SGD(model.parameters(), lr=1e-3, momentum=0.9)
-    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=50, gamma=0.5)             
-    model = train_model(model, optimizer_ft, exp_lr_scheduler, num_epochs=200, dataloaders=dataset, device=device)
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=25, gamma=0.5)             
+    model = train_model(model, optimizer_ft, exp_lr_scheduler, num_epochs=100, dataloaders=dataset, device=device)
 
 
 
