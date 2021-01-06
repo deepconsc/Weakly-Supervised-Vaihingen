@@ -12,7 +12,8 @@ patches (cherry on top).
 which goes through the U^2-Net network. I find this very much intuitive over raw RGB approach, as long as it's additional dense 
 spatial information. Actually depth map showed promising results even while operating on raw single channel depth map. It 
 estimates corners very well, it only struggles near 'Car' class, where we can hardly see class mask objectively. 
-- U^2-Net (U Squared Net) is used as Generator. We only chage input channels 3 -> 4. 
+- U^2-Net (U Squared Net) is used as Generator. We chage input channels 3 -> 4, and add couple of Conv, Batchnorm, Maxpool
+layers along with Linear to support Encoder + Classification during pretraining.
 - Pix2Pix training approach with its original discriminator is used. We additionally use BCE loss over U^2-Net intermediate
 layers' outputs as auxiliary loss for Generator.
 
