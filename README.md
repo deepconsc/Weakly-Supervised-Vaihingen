@@ -72,20 +72,20 @@ Images below are all 5 classes 0 -> 4, from left to right respectively.
 
 **20th Epoch**
 - Batch 1. 
-![Alt text](images/epoch_5_1.png?raw=true " ")
+![Alt text](images/epoch_20_1.png?raw=true " ")
 - Batch 2.
-![Alt text](images/epoch_5_2.png?raw=true " ")
+![Alt text](images/epoch_20_2.png?raw=true " ")
 - Batch 3. 
-![Alt text](images/epoch_5_3.png?raw=true " ")
+![Alt text](images/epoch_20_3.png?raw=true " ")
 
 
 **Last Epoch**
 - Batch 1. 
-![Alt text](images/epoch_50_1.png?raw=true " ")
+![Alt text](images/epoch_200_1.png?raw=true " ")
 - Batch 2.
-![Alt text](images/epoch_50_2.png?raw=true " ")
+![Alt text](images/epoch_200_2.png?raw=true " ")
 - Batch 3. 
-![Alt text](images/epoch_50_3.png?raw=true " ")
+![Alt text](images/epoch_200_3.png?raw=true " ")
 - Batch 4. 
-![Alt text](images/epoch_50_4.png?raw=true " ")
+![Alt text](images/epoch_200_4.png?raw=true " ")
 
