@@ -70,7 +70,7 @@ Classwise IoU:
 Upper - Predicted, Lower - Target.
 Images below are all 5 classes 0 -> 4, from left to right respectively.
 
-**5th Epoch**
+**20th Epoch**
 - Batch 1. 
 ![Alt text](images/epoch_5_1.png?raw=true " ")
 - Batch 2.
