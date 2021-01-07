@@ -56,9 +56,7 @@ The validation is done on 7 unseen HR images in the dataset.
 
 ```
 Mean IoU: 94.95
-Accuracy: 94.95
 F1: 0.67
-MCC: 0.00
 Binary ACC: 0.82
 Classwise IoU: 
 0 - 93.27
