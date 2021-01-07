@@ -20,6 +20,11 @@ if 'train' not in localfiles and 'val' not in localfiles:
     run('mkdir train val', shell=True)
 
 def process(img):
+    '''
+    Intel's Midas depth estimation network transforms and inference.
+    Takes 3-dim np.array of image, returns 4-dim array with normalized
+    depth channel.
+    '''
     input_batch = transform(img).cuda()
     with torch.no_grad():
         prediction = midas(input_batch)
@@ -39,7 +44,10 @@ def process(img):
     
         
 def patch(img, mask, num_generated, count, train=True, custom=False):
-
+    '''
+    Random cropping & ordered cropping function for training and
+    validation.
+    '''
     if train:
         path = 'train'
     else: 

@@ -2,7 +2,6 @@
 Pix2Pix with U^2-Net Generator Trainer.
 Code is adopted from: https://github.com/togheppi/pix2pix
 
-It needs to be refactored yet.
 """
 import torch
 from torchvision import transforms
@@ -73,7 +72,6 @@ G = U2NET()
 G.load_state_dict(torch.load(chks[-1])['model'])
 
 for name, child in G.named_children():
-    #if name in ['stage1', 'pool12', 'stage2', 'pool23', 'stage3', 'pool34', 'stage4', 'pool45', 'stage5', 'pool56', 'stage6','last_conv', 'fc']:
     if name in ['last_conv', 'fc']:
         for param in child.parameters():
             param.requires_grad = False

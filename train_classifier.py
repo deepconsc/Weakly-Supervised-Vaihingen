@@ -1,3 +1,9 @@
+"""
+U^2-Net Generator + Classifier for weak pretraining.
+Classifier consists of two Maxpool, Conv, Batchnorm, Relu layers
+accompanied with Linear + ReLU for downsampling encoder outputs
+for classification.
+"""
 import cv2
 import torch 
 import torch.nn as nn 
@@ -54,17 +60,15 @@ def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders=None, de
         
         since = time.time()
 
-        # Each epoch has a training and validation phase
         for phase in ['train', 'val']:
             if phase == 'train':
                 scheduler.step()
                 for param_group in optimizer.param_groups:
                     print("LR", param_group['lr'])
                     
-                model.train()  # Set model to training mode
+                model.train()  
             else:
-                model.eval()   # Set model to evaluate mode
-
+                model.eval()   
             metrics = defaultdict(float)
             epoch_samples = 0
             for inputs, labels in tqdm(dataloaders[phase]):
@@ -75,12 +79,11 @@ def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders=None, de
                 optimizer.zero_grad()
 
                 # forward
-                # track history if only in train
                 with torch.set_grad_enabled(phase == 'train'):
                     output = model(inputs, classify=True)
-                    loss = calc_loss(output, labels, metrics)# Average loss by grad acc times
+                    loss = calc_loss(output, labels, metrics)
 
-                    # backward + optimize only if in training phase
+                    # backward
                     if phase == 'train':
                         loss.backward()
                         optimizer.step()    
@@ -91,7 +94,6 @@ def train_model(model, optimizer, scheduler, num_epochs=25, dataloaders=None, de
             print_metrics(metrics, epoch_samples, phase)
             epoch_loss = metrics['loss'] / epoch_samples
 
-            # deep copy the model
             if phase == 'val' and epoch_loss < best_loss:
                 print("saving best model")
                 best_loss = epoch_loss

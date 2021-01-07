@@ -61,20 +61,20 @@ class DatasetFromFolder(data.Dataset):
             input = F.interpolate(input, (256,256)).squeeze(0)
             target = F.interpolate(target, (256,256)).squeeze(0)
 
-            aug_1 = random.randint(0,1) #fliplr
-            aug_2 = random.randint(0,1) #flipud
-            aug_3 = random.randint(0,1) #rot90
-            k = random.randint(0, 3)
+            # aug_1 = random.randint(0,1) #fliplr
+            # aug_2 = random.randint(0,1) #flipud
+            # aug_3 = random.randint(0,1) #rot90
+            # k = random.randint(0, 3)
 
-            if aug_1 == 1:
-                input = torch.fliplr(input)
-                target = torch.fliplr(target)
-            if aug_2 == 1:
-                input = torch.flipud(input)
-                target = torch.flipud(target)
-            if aug_3 == 1:
-                input = torch.rot90(input, k, [-2, -1])
-                target = torch.rot90(target, k, [-2,-1])
+            # if aug_1 == 1:
+            #     input = torch.fliplr(input)
+            #     target = torch.fliplr(target)
+            # if aug_2 == 1:
+            #     input = torch.flipud(input)
+            #     target = torch.flipud(target)
+            # if aug_3 == 1:
+            #     input = torch.rot90(input, k, [-2, -1])
+            #     target = torch.rot90(target, k, [-2,-1])
 
 
 
