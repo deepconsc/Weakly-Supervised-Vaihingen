@@ -1,7 +1,7 @@
 # Weakly-Supervised-Vaihingen
 
 ### Sum up:
-Pix2Pix network with U^2-Net generator and Monocular Depth Estimation network output as fourth spatial dimension.
+Pix2Pix network with U^2-Net generator with encoder weak pretraining and Monocular Depth Estimation network output as fourth spatial dimension.
 
 ### This branch covers: 
 - Random patch cropping function. Basically we take center coordinate with enough distance from corners and then expand
@@ -16,6 +16,7 @@ estimates corners very well, it only struggles near 'Car' class, where we can ha
 layers along with Linear to support Encoder + Classification during pretraining.
 - Pix2Pix training approach with its original discriminator is used. We additionally use BCE loss over U^2-Net intermediate
 layers' outputs as auxiliary loss for Generator.
+- U^2-Net Encoder pretraining as multi-label classifier on tile-level crop labels in weakly supervised manner.
 
 
 ### First iteration
@@ -44,7 +45,7 @@ with adversarial learning.
 - Took classifier away & trained on 3 HR images' full-pixel masks.
 - Metrics report is coming soon.
 
-### Reported Metrics on 3rd iteration:
+# Reported Metrics on Last iteration:
 IoU is pure jaccard similarity score.
 Binary ACC is by conversion of 5-dim output mask to 1-dim mask. This way we 
 don't have to tackle with false accuracy scores, when background is huge in
@@ -55,16 +56,17 @@ In this case, Binary ACC is the most precise total class mask accuracy.
 The validation is done on 7 unseen HR images in the dataset.
 
 ```
-Mean IoU: 91.50
-Accuracy: 91.50
-F1: 0.55
-Binary ACC: 0.78
+Mean IoU: 94.95
+Accuracy: 94.95
+F1: 0.67
+MCC: 0.00
+Binary ACC: 0.82
 Classwise IoU: 
-0 - 85.20
-1 - 95.41
-2 - 85.73
-3 - 91.95
-4 - 99.20
+0 - 93.27
+1 - 97.84
+2 - 91.46
+3 - 92.63
+4 - 99.57
 ```
 
 ### Predictions
@@ -80,7 +82,7 @@ Images below are all 5 classes 0 -> 4, from left to right respectively.
 ![Alt text](images/epoch_5_3.png?raw=true " ")
 
 
-**50th Epoch**
+**Last Epoch**
 - Batch 1. 
 ![Alt text](images/epoch_50_1.png?raw=true " ")
 - Batch 2.
