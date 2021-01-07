@@ -41,9 +41,8 @@ with adversarial learning.
 
 ### Final Iteration
 
-- Converted U^2-Net as Encoder + classifier. Pretrained it on 23 HR images' tile-level class labels.
+- Converted U^2-Net as Encoder + classifier + Decoder. Pretrained it on 23 HR images' tile-level class labels.
 - Took classifier away & trained on 3 HR images' full-pixel masks.
-- Metrics report is coming soon.
 
 # Reported Metrics on Last iteration:
 IoU is pure jaccard similarity score.
