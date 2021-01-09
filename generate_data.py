@@ -17,7 +17,7 @@ args = parser.parse_args()
 
 localfiles = glob.glob('*')
 if 'train' not in localfiles and 'val' not in localfiles:
-    run('mkdir train val', shell=True)
+    run('mkdir train val validation', shell=True)
 
 def process(img):
     '''
@@ -83,7 +83,7 @@ def patch(img, mask, num_generated, count, train=True, custom=False):
         
 def generator(num_gt, num_total, train, custom): 
     if custom:
-        mask_paths = glob.glob(f'{args.gt}/*')[3:3+num_gt]
+        mask_paths = glob.glob(f'{args.gt}/*')[-7:]
     else:
         mask_paths = glob.glob(f'{args.gt}/*')[:num_gt]
     image_paths = [x.replace(f'{args.gt}', f'{args.images}') for x in mask_paths]
@@ -103,5 +103,6 @@ transform = midas_transforms.small_transform
 
 # Generate train images. We generate 1000 tile per HR image, 
 # 3000 will be used with pixel-level annotations, rest for classification
-generator(num_gt=26, num_total=2000, train=True, custom=False)
-generator(num_gt=3, num_total=300, train=False, custom=False)
+generator(num_gt=26, num_total=2000, train=True, custom=False) # Train
+generator(num_gt=3, num_total=300, train=False, custom=False) # Test
+generator(num_gt=7, num_total=None, train=False, custom=True) # Final Validation
